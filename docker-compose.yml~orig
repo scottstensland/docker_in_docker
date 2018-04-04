@@ -1,0 +1,43 @@
+
+
+  loud-devops:
+    image: dind
+    container_name: loud_devops
+    restart: always
+    ports:
+      # - 0.0.0.0:9000:9000
+      - 127.0.0.1:9000:9000
+#     expose:
+#      - 9000
+#   networks:
+#    - loudthink-network
+#     environment:
+#       - SSH_AUTH_SOCK=$SSH_AUTH_SOCK
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock   
+      - /usr/bin/docker:/usr/bin/docker   
+      # - $SSH_AUTH_SOCK:/ssh-agent 
+      - /usr/lib/x86_64-linux-gnu/libltdl.so.7:/usr/lib/x86_64-linux-gnu/libltdl.so.7  
+      - /usr/lib/x86_64-linux-gnu/libgpm.so.2:/usr/lib/x86_64-linux-gnu/libgpm.so.2
+      - /home/scott/src/github.com/loudthink:/inner_home/scott/src/github.com/loudthink 
+      - /home/scott/.docker:/inner_home/scott/.docker
+      - /cryptdata5/var/tools/inner_home/scott:/inner_home/scott
+      - $GKE_DIND_SUPERVISOR_LOG_DIR:/var/log/supervisor
+      - /cryptdata5/var/tools/usr/local/go:/usr/local/go
+      - /cryptdata6/var/log/tmp/scott01:/cryptdata6/var/log/tmp/scott01
+      - /cryptdata6/var/log/tmp/shared:/cryptdata6/var/log/tmp/shared
+      - /cryptdata5/var/tools/usr/local/bin:/usr/local/bin 
+      - /cryptdata:/cryptdata
+      # - /cryptdata2:/cryptdata2
+      - /cryptdata4:/cryptdata4
+      - /cryptdata5:/cryptdata5
+      - /cryptdata6:/cryptdata6
+      - /cryptdata7:/cryptdata7
+      - /etc/letsencrypt/live:/etc/letsencrypt/live
+      - /etc/letsencrypt/archive/medssenger-dev.medstack.net:/etc/letsencrypt/archive/medssenger-dev.medstack.net
+      - /usr/local/ssl:/usr/local/ssl
+      #  following line HOME is only used during install as referenced in loudspeed/build/bin/setup_devops_sudo_cmds.sh to copy over .ssh files
+      # - ${HOME}:${HOME}
+    command: /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
+
+
